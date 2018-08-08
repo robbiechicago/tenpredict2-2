@@ -55,16 +55,16 @@
                             {{-- POINTS --}}
                             <div class="col-3 col-lg-2">
                                 @if($prediction_submitted)
-                                Res:&nbsp;&nbsp;<span class="page-game-res-pts">{{ $game->predictions[0]->result_points }}</span>
+                                Res:&nbsp;&nbsp;<span class="page-game-pts page-game-res-pts" data-gameid="{{ $game->id }}">{{ $game->predictions[0]->result_points }}</span>
                                 @else
-                                Res:&nbsp;&nbsp;<span class="page-game-res-pts">1</span>
+                                Res:&nbsp;&nbsp;<span class="page-game-pts page-game-res-pts" data-gameid="{{ $game->id }}">1</span>
                                 @endif
                             </div>
                             <div class="col-3 col-lg-2">
                                 @if($prediction_submitted)
-                                Scr:&nbsp;&nbsp;<span class="page-game-scr-pts">{{ $game->predictions[0]->score_points }}</span>
+                                Scr:&nbsp;&nbsp;<span class="page-game-pts page-game-scr-pts" data-gameid="{{ $game->id }}">{{ $game->predictions[0]->score_points }}</span>
                                 @else
-                                Scr:&nbsp;&nbsp;<span class="page-game-scr-pts">1</span>
+                                Scr:&nbsp;&nbsp;<span class="page-game-pts page-game-scr-pts" data-gameid="{{ $game->id }}">1</span>
                                 @endif
                             </div>
 
@@ -125,11 +125,11 @@
                                         <td class="w-25 pred-form-num home-num" data-value="{{ $x }}"><span id="home-goals-{{ $x }}">{{ $x }}</span></td>
                                         <td class="w-25 pred-form-num away-num" data-value="{{ $x }}"><span id="away-goals-{{ $x }}">{{ $x }}</span></td>
                                         @if($x == 0)
-                                        <td class="w-25 pred-form-num result-num" data-value="10"><span id="result-points-0">10</span></td>
-                                        <td class="w-25 pred-form-num score-num" data-value="10"><span id="score-points-0">10</span></td>
+                                        <td class="w-25 pred-form-num result-num" data-value="10"><span id="result-points-0" class="pred-form-pts">10</span></td>
+                                        <td class="w-25 pred-form-num score-num" data-value="10"><span id="score-points-0" class="pred-form-pts">10</span></td>
                                         @elseif($x > 0 && $x < 11)
-                                        <td class="w-25 pred-form-num result-num" data-value="{{ $x }}"><span id="result-points-{{ $x }}">{{ $x }}</span></td>
-                                        <td class="w-25 pred-form-num score-num" data-value="{{ $x }}"><span id="score-points-{{ $x }}">{{ $x }}</span></td>
+                                        <td class="w-25 pred-form-num result-num" data-value="{{ $x }}"><span id="result-points-{{ $x }}" class="pred-form-pts">{{ $x }}</span></td>
+                                        <td class="w-25 pred-form-num score-num" data-value="{{ $x }}"><span id="score-points-{{ $x }}" class="pred-form-pts">{{ $x }}</span></td>
                                         @else
                                         <td></td>
                                         <td></td>
@@ -142,10 +142,20 @@
                 </div>
             </div>
 
+            <div class="row" >
+                <div id="modal-errors" style="display: none;">
+                    {{-- ERROR TEXT HERE --}}
+                </div>
+            </div>
+
             <div class="modal-footer">
-                <button type="button" id="pred-form-cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" id="pred-form-submit-disabled" class="btn btn-outline-default" disabled>Save prediction</button>
-                <button type="button" id="pred-form-submit" class="btn btn-primary" style="display: none;">Save prediction</button>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" id="pred-form-cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="pred-form-submit-disabled" class="btn btn-outline-default" disabled>Save prediction</button>
+                        <button type="button" id="pred-form-submit" class="btn btn-primary" style="display: none;">Save prediction</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

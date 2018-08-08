@@ -74,6 +74,15 @@ body {
     font-size: 1.5rem;
 }
 
+#modal-errors {
+    width: 80%;
+    margin: 0 auto;
+    color: red;
+    padding: 5px 15px;
+    border: 1px solid red;
+    border-radius: 3px;
+    background: #ddd;
+}
 
 
 /* Sticky footer styles
