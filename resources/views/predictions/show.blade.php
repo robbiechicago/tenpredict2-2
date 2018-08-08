@@ -72,9 +72,9 @@
                             <div class="col-6 col-lg-3">
                                 @if(!$game_started)
                                     @if($prediction_submitted)
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pred_form" data-gameid="{{ $game->id }}">Edit Prediction</button>
+                                    <button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#pred_form" data-gameid="{{ $game->id }}">Edit Prediction</button>
                                     @else
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pred_form" data-gameid="{{ $game->id }}">Predict Now</button>
+                                    <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#pred_form" data-gameid="{{ $game->id }}">Predict Now</button>
                                     @endif
                                 @endif
                             </div>
@@ -105,7 +105,7 @@
                 <div id="pred-form-title-points">
                     <h6>Result Points: <span id="pred-form-title-points-res"></span></h6>
                     <h6>Score Points: <span id="pred-form-title-points-scr"></span></h6>
-                    <h6>Total Points (all games): <span id="pred-form-title-points-all"></span></h6>
+                    <h6>Total Points (all games): <span id="pred-form-title-points-all" value=""></span></h6>
                 </div>
             </div>
 
@@ -143,8 +143,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="pred-form-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="pred-form-submit" class="btn btn-primary" >Save changes</button>
+                <button type="button" id="pred-form-cancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="pred-form-submit-disabled" class="btn btn-outline-default" disabled>Save prediction</button>
+                <button type="button" id="pred-form-submit" class="btn btn-primary" style="display: none;">Save prediction</button>
             </div>
         </div>
     </div>

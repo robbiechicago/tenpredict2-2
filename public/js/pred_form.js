@@ -23,6 +23,7 @@ $(document).ready(function() {
                         modal.find('#pred-form-title').html(home_team + ' <span id="pred-form-title-home-goals"></span> - <span id="pred-form-title-away-goals"></span> ' + away_team);
                         modal.find('#pred-form-title').attr('data-gameid', game_id);
                         modal.find('#pred-form-title-points-all').text(tot_points);
+                        modal.find('#pred-form-title-points-all').val(tot_points);
                         if (res.predictions.length > 0) {
                             modal.find('#pred-form-title-home-goals').text(res.predictions[0].home_goals);
                             modal.find('.home-num[data-value="' + res.predictions[0].home_goals + '"]').addClass('table-info')
@@ -38,6 +39,8 @@ $(document).ready(function() {
                             modal.find('#pred-form-title-points-scr').text(1);
                             modal.find('.score-num[data-value="1"]').addClass('table-success')
                         }
+
+                        check_home_away();
                     },
                     error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
                         // console.log(JSON.stringify(jqXHR));
@@ -67,6 +70,7 @@ $(document).ready(function() {
             self.addClass('table-info');
             $('#pred-form-title-home-goals').text(vall);
         }
+        check_home_away();
     })
 
     $('.away-num').click(function() {
@@ -82,10 +86,13 @@ $(document).ready(function() {
             self.addClass('table-warning');
             $('#pred-form-title-away-goals').text(vall);
         }
+        check_home_away();
     })
 
     $('.result-num').click(function() {
         var vall = $(this).data('value');
+        var old_tot = parseInt($('#pred-form-title-points-all').val());
+        var new_tot;
         var self = $(this);
         if ($(this).hasClass('table-danger')) {
             // DO NOTHING
@@ -95,6 +102,8 @@ $(document).ready(function() {
             })
             self.addClass('table-danger');
             $('#pred-form-title-points-res').text(vall);
+            new_tot = old_tot + vall;
+            $('#pred-form-title-points-all').text(new_tot);
         }
     })
 
@@ -159,7 +168,7 @@ $(document).ready(function() {
         })
     })
 
-    get_points();
+    update_page_points();
     
     function get_points() {
         var tot_res_pts = 0;
@@ -175,9 +184,34 @@ $(document).ready(function() {
             tot_pts += parseInt($(this).text());
         })
 
-        $('#page-tot-res-pts').text(tot_res_pts);
-        $('#page-tot-scr-pts').text(tot_scr_pts);
-        $('#page-tot-pts').text(tot_pts);
+        var rtn_array = [];
+        rtn_array['tot_res_pts'] = tot_res_pts;
+        rtn_array['tot_scr_pts'] = tot_scr_pts;
+        rtn_array['tot_pts'] = tot_pts;
+
+        return rtn_array;
+    }
+
+    function update_page_points() {
+
+        var points_arr = get_points();
+
+        $('#page-tot-res-pts').text(points_arr.tot_res_pts);
+        $('#page-tot-scr-pts').text(points_arr.tot_scr_pts);
+        $('#page-tot-pts').text(points_arr.tot_pts);
+    }
+
+    function check_home_away() {
+        var home = $('#pred-form-title-home-goals').text();
+        var away = $('#pred-form-title-away-goals').text();
+        
+        if(home == '' || away == '') {
+            $('#pred-form-submit-disabled').show();
+            $('#pred-form-submit').hide();
+        } else {
+            $('#pred-form-submit-disabled').hide();
+            $('#pred-form-submit').show();
+        }
     }
 
 })
