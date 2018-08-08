@@ -3,7 +3,21 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-lg-10">
+
+            <div class="jumbotron">
+                <div class="container">
+                    <center><img src="{{ asset('images/ball-name-logo.png') }}" alt="TenPredict Logo"></center>
+                </div>
+            </div>
+
+            <p>
+                Welcome back to TenPredict!
+            </p>
+            <p>
+                Log in below, <a href="/register">register here</a>, or <a href="/how">click here to see how it works</a>.
+            </p>
+
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 

@@ -20,7 +20,13 @@
                         <a class="nav-link" href="/how">How To Play</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" >&nbsp;&nbsp;||&nbsp;&nbsp;</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/forum">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" >&nbsp;&nbsp;||&nbsp;&nbsp;</a>
                     </li>
                     <!-- Authentication Links -->
                     @guest
