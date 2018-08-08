@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\forum;
 use Illuminate\Http\Request;
+use Auth;
 
 class ForumController extends Controller
 {
@@ -14,7 +15,9 @@ class ForumController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Forum::with('user')->where('active', 1)->orderBy('created_date', 'DESC')->get();
+        
+        return view('forum.index')->with(['posts' => $posts]);
     }
 
     /**
@@ -35,7 +38,19 @@ class ForumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        // return $request->all();
+
+        $post = new Forum;
+        $post->user_id = Auth::user()->id;
+        $post->post = $request->input('post');
+        $post->created_date = date('Y-m-d H:i:s');
+        $post->active = 1;
+
+        $post->save();
+
+        return back()->with('success', 'Bingo');
+
     }
 
     /**
