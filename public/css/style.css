@@ -2,6 +2,13 @@ body {
     font-family: Montserrat, Arial, Helvetica, sans-serif
 }
 
+/* home page styles
+-------------------------------------------------- */
+
+#home-weeks-table {
+    margin-top: 20px;
+}
+
 /* prediction page styles
 -------------------------------------------------- */
 

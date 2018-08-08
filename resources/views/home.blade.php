@@ -4,9 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
 
-        {{-- <div class="col-md-12">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">TenPredict News</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -15,9 +15,18 @@
                         </div>
                     @endif
 
+                    
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="hosted_button_id" value="YUQEHTXE6H2PL">
+                        <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                        
+
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         <table id="home-weeks-table" class="table table-striped table-bordered">
             <thead>

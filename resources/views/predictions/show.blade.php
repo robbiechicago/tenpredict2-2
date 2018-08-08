@@ -5,6 +5,7 @@
     
     <h1>Week {{ $week }}</h1>
     
+    <a href="/" class="btn btn-outline-primary">Back</a>
 
     @foreach ($games as $game)
         @php

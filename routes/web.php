@@ -13,3 +13,9 @@ Route::get('prediction/tot_points_week/{game}', 'PredictionController@tot_points
 Route::post('prediction/submit', 'PredictionController@submit');
 
 Route::get('game/{game}', 'GameController@show');
+
+
+//pages
+Route::get('/how', function () {
+    return view('pages.how');
+});
