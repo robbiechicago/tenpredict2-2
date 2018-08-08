@@ -112,7 +112,16 @@ class PredictionController extends Controller
                             ->where('predictions.active', 1)
                             ->sum('score_points');
 
-        return $res_points + $scr_points;
+        $count_preds = Prediction::join('games', 'games.id', '=', 'predictions.game_id')
+                            ->where('predictions.user_id', $user_id)
+                            ->where('games.week_id', $week_id)
+                            ->where('games.active', 1)
+                            ->where('predictions.active', 1)
+                            ->count('games.id');
+
+        $points_for_not_predicted_games = (10 - $count_preds) * 2;
+
+        return $res_points + $scr_points + $points_for_not_predicted_games;
 
     }
 

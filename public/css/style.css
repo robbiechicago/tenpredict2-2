@@ -2,12 +2,40 @@ body {
     font-family: Montserrat, Arial, Helvetica, sans-serif
 }
 
+/* prediction page styles
+-------------------------------------------------- */
+
+.pred-row {
+    padding-top: 5px;
+}
+
+.date-row {
+    margin-top: 20px;
+}
+
+/*.even_row {
+    background: #ccc;
+}
+
+.odd_row {
+    background: #eee;
+}*/
+
+.pred-box {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 5px;
+    background: #eee;
+}
+
+
+
 /* prediction form modal styles
 -------------------------------------------------- */
 
-#pred_form {
-    /* max-width: 340px; */
-}
+/*#pred_form {
+     max-width: 340px; 
+}*/
 
 .modal-dialog {
     max-width: 340px;
@@ -34,7 +62,8 @@ body {
 
 .fake-table-head {
     text-align: center;
-    border: 1px solid black;
+    color: #777;
+    /* border: 1px solid black; */
 }
 
 #pred-form-table td {

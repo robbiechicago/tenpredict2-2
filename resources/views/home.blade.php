@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
 
-        <div class="col-md-12">
+        {{-- <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -17,7 +17,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <table id="home-weeks-table" class="table table-striped table-bordered">
             <thead>
@@ -31,8 +31,8 @@
                 @foreach ($weeks as $week)
                     <tr>
                         <td>{{ $week->play_week_num }}</td>
-                    <td><a href="season/{{ $week->season->season }}/week/{{ $week->play_week_num }}/predictions">something</a></td>
-                        <td>something else</td>
+                    <td><a href="season/{{ $week->season->season }}/week/{{ $week->play_week_num }}/predictions">Predict now!</a></td>
+                        <td>&nbsp;</td>
                     </tr>
                 @endforeach
             </tbody>

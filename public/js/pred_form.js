@@ -7,8 +7,6 @@ $(document).ready(function() {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var game_id = button.data('gameid') // Extract info from data-* attributes
 
-        console.log(game_id);
-
         $.ajax({
             method: 'GET',
             url: '/prediction/tot_points_week/' + game_id,
@@ -19,8 +17,6 @@ $(document).ready(function() {
                     method: 'GET',
                     url: '/game/' + game_id,
                     success: function(res) {
-                        console.log(res);
-                        console.log(res.predictions.length);
                         var home_team = res.home_team;
                         var away_team = res.away_team;
 
@@ -38,19 +34,21 @@ $(document).ready(function() {
                             modal.find('.score-num[data-value="' + res.predictions[0].score_points + '"]').addClass('table-success')
                         } else {
                             modal.find('#pred-form-title-points-res').text(1);
+                            modal.find('.result-num[data-value="1"]').addClass('table-danger')
                             modal.find('#pred-form-title-points-scr').text(1);
+                            modal.find('.score-num[data-value="1"]').addClass('table-success')
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
-                        console.log(JSON.stringify(jqXHR));
-                        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                        // console.log(JSON.stringify(jqXHR));
+                        // console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
                     }
                 });
 
             },
             error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
-                console.log(JSON.stringify(jqXHR));
-                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                // console.log(JSON.stringify(jqXHR));
+                // console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
             }
         });
         
@@ -139,11 +137,47 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) { 
-                console.log(JSON.stringify(jqXHR));
-                console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                // console.log(JSON.stringify(jqXHR));
+                // console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
             }
         });
-
-
     })
+
+    $('#pred_form').on('hidden.bs.modal', function () {
+        //REMOVE ALL FORMATTING
+        $('.home-num').each(function() {
+            $(this).removeClass('table-info');
+        })
+        $('.away-num').each(function() {
+            $(this).removeClass('table-warning');
+        })
+        $('.result-num').each(function() {
+            $(this).removeClass('table-danger');
+        })
+        $('.score-num').each(function() {
+            $(this).removeClass('table-success');
+        })
+    })
+
+    get_points();
+    
+    function get_points() {
+        var tot_res_pts = 0;
+        var tot_scr_pts = 0;
+        var tot_pts = 0;
+
+        $('.page-game-res-pts').each(function() {
+            tot_res_pts += parseInt($(this).text());
+            tot_pts += parseInt($(this).text());
+        })
+        $('.page-game-scr-pts').each(function() {
+            tot_scr_pts += parseInt($(this).text());
+            tot_pts += parseInt($(this).text());
+        })
+
+        $('#page-tot-res-pts').text(tot_res_pts);
+        $('#page-tot-scr-pts').text(tot_scr_pts);
+        $('#page-tot-pts').text(tot_pts);
+    }
+
 })
