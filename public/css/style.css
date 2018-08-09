@@ -94,6 +94,15 @@ body {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+
+.forum-post {
+    margin: 10px 0;
+}
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
 html {
     position: relative;
     min-height: 100%;

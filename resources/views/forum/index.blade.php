@@ -5,6 +5,7 @@
 
     <h1>Forum</h1>
 
+    @auth
     <div class="row">
         <div class="col-lg-12">
             {!! Form::open(array('action' => 'ForumController@store', 'method', 'POST')) !!}
@@ -24,10 +25,11 @@
             {!! Form::close() !!}
         </div>
     </div>
+    @endauth
 
     @foreach ($posts as $post)
-    <div class="row">
-        <div class="col-md-4">{{ $post->user->name }} at {{ $post->created_date }}:&nbsp;&nbsp;</div>
+    <div class="row forum-post">
+        <div class="col-md-4"><strong>{{ $post->user->name }}</strong> at {{ $post->created_date }}:&nbsp;&nbsp;</div>
         <div class="col-md-8">{{ $post->post }}</div>
     </div>
     @endforeach
