@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Season;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -15,9 +16,13 @@ class AdminController extends Controller
     public function index() {
 
         $seasons = Season::with('weeks')->orderBy('season', 'DESC')->get();
+        $users = User::get();
         // return $seasons;
 
-        return view('admin.index', compact('seasons'));
+        return view('admin.index', [
+            'users' => $users,
+            'seasons' => $seasons
+        ]);
     }
 
     public function create_weeks(Request $request) {

@@ -16,6 +16,13 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    @if(!Auth::guest())
+                        @if(Auth::user()->is_admin == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin</a>
+                        </li>
+                        @endif
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/how">How To Play</a>
                     </li>
