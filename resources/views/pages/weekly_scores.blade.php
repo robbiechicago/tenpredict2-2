@@ -31,7 +31,7 @@
                             <td rowspan="2">{{ $loop->index + 1 }}</td>
                             <td rowspan="2">{{ $pred['username'] }}</td>
                             @for ($i = 1; $i < 11; $i++)
-                            <td colspan="2">{{ $pred[$i]['home_goals']}} - {{ $pred[$i]['home_goals'] }} </td>
+                            <td colspan="2">{{ $pred[$i]['home_goals']}} - {{ $pred[$i]['away_goals'] }} </td>
                             @endfor
                             <td rowspan="2">{{ $pred['tot_pts_bet'] }}</td>
                             <td rowspan="2">{{ $pred['tot_pts_won'] }}</td>
