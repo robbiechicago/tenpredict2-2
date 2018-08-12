@@ -36,6 +36,14 @@ body {
 }
 
 
+/* weekly scores page styles
+-------------------------------------------------- */
+
+#weekly-scores-table {
+    font-size: 0.8em;
+}
+
+
 
 /* prediction form modal styles
 -------------------------------------------------- */

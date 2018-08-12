@@ -56,8 +56,8 @@
                 @foreach ($weeks as $week)
                     <tr>
                         <td>{{ $week->play_week_num }}</td>
-                    <td><a href="season/{{ $week->season->season }}/week/{{ $week->play_week_num }}/predictions">Predict now!</a></td>
-                        <td>&nbsp;</td>
+                        <td><a href="season/{{ $week->season->season }}/week/{{ $week->play_week_num }}/predictions">Predict now!</a></td>
+                        <td><a href="weekly-scores/{{ $week->id }}">See all</a></td>
                     </tr>
                 @endforeach
             </tbody>

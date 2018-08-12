@@ -13,6 +13,6 @@ class Game extends Model
     }
 
     public function predictions() {
-        return $this->hasMany(Prediction::class);
+        return $this->hasMany(Prediction::class, 'game_id');
     }
 }

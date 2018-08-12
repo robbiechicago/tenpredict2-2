@@ -3,6 +3,19 @@
 @section('content')
 <h1>Admin</h1>
 
+<h2>Weeks</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Week_num</th>
+            <th>some other shite</th>
+        </tr>
+    </thead>
+</table>
+
+<a href="admin/calc_weekly_scores/1" class="btn btn-info">calc weekly scores</a>
+
 <h2>Users</h2>
 
 <table>
