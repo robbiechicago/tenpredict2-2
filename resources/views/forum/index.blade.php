@@ -12,7 +12,7 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                        {{ Form::textarea('post', '', ['class' => 'form-control', 'placeholder' => 'Chat here...']) }}
+                        {{ Form::textarea('post', '', ['class' => 'form-control', 'placeholder' => 'Chat here...', 'rows' => 4]) }}
                     </div>
                 </div>
 
