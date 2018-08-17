@@ -35,6 +35,12 @@
                     <li class="nav-item">
                         <a class="nav-link" >&nbsp;&nbsp;||&nbsp;&nbsp;</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/payment">Pay</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" >&nbsp;&nbsp;||&nbsp;&nbsp;</a>
+                    </li>
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">

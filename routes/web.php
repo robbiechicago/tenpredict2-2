@@ -19,8 +19,12 @@ Route::resource('forum', 'ForumController');
 
 
 //pages
+Route::get('weekly-scores/{week}', 'WeeklyscoresController@show');
+
 Route::get('/how', function () {
     return view('pages.how');
 });
 
-Route::get('weekly-scores/{week}', 'WeeklyscoresController@show');
+Route::get('/payment', function () {
+    return view('pages.payment');
+});
