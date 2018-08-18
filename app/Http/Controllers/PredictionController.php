@@ -135,7 +135,7 @@ class PredictionController extends Controller
                             }])
                         ->where('season_id', $season_id)
                         ->where('week_id', $week_id)
-                        ->orderBy('game_num', 'ASC')
+                        ->orderBy('kickoff_datetime', 'ASC')
                         ->get();
         
         return view('predictions.show', [
