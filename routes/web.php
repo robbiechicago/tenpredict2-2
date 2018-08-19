@@ -16,6 +16,7 @@ Route::post('prediction/submit', 'PredictionController@submit');
 Route::get('game/{game}', 'GameController@show');
 
 Route::resource('forum', 'ForumController');
+Route::resource('league', 'LeagueController');
 
 
 //pages
