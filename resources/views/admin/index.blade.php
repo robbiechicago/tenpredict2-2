@@ -5,13 +5,33 @@
 
 <h2>Weeks</h2>
 
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Week_num</th>
-            <th>some other shite</th>
+            <th>Week ID</th>
+            <th>Week Num</th>
+            <th>Play Week Num</th>
+            <th>Num fixtures</th>
+            <th>Calc Scores</th>
         </tr>
     </thead>
+    <tbody>
+        @foreach ($seasons as $season)
+            @foreach ($season->weeks as $week)
+                @php
+                $fixtures = count($week->games);
+                $calc_btn = $fixtures < 10 ? '' : '<a href="admin/calc_weekly_scores/' . $week->id . '" class="btn btn-info btn-sm">Calc</a>';
+                @endphp
+                <tr>
+                    <td>{{ $week->id }}</td>
+                    <td>{{ $week->week_num }}</td>
+                    <td>{{ $week->play_week_num }}</td>
+                    <td>{{ $fixtures }}</td>
+                    <td>{!! $calc_btn !!}</td>
+                </tr>
+            @endforeach
+        @endforeach
+    </tbody>
 </table>
 
 <a href="admin/calc_weekly_scores/1" class="btn btn-info">calc weekly scores</a>

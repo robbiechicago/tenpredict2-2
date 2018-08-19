@@ -19,17 +19,31 @@ class AdminController extends Controller
 
     public function index() {
 
-        $seasons = Season::with('weeks')->orderBy('season', 'DESC')->get();
+        if (auth()->user()->is_admin != 1) {
+            return redirect('/home')->with('error', 'Authorised users only.');
+        }
+
+        $seasons = Season::with('weeks.games.predictions')->orderBy('season', 'DESC')->get();
         $users = User::get();
+        
         // return $seasons;
 
         return view('admin.index', [
             'users' => $users,
             'seasons' => $seasons
         ]);
+
     }
 
     public function calc_weekly_scores($week_id) {
+
+        if (auth()->user()->is_admin != 1) {
+            return false;
+        }
+
+        //IMPORTANT!!
+        //ADD IN CHECK TO MAKE SURE LAST GAME HAS FINISHED
+        //MAKE SURE ALL SCORES ARE IN
 
         $games = Game::where('week_id', $week_id)->where('active', 1)->get();
 
