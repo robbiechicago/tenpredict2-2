@@ -11,7 +11,7 @@
                     <tr>
                         <th colspan="3" class="no-btm-bord"></th>
                         @foreach($games as $game)
-                        <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->_abbrv }} ({{ $game->id }})</th>
+                        <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->_abbrv }}</th>
                         @endforeach
                         <th rowspan="2" class="l-bord no-top-bord">Tot Pts Bet</th>
                         <th rowspan="2" class="no-top-bord">Tot Pts Won</th>
