@@ -1,46 +1,59 @@
 @extends('layouts.layout')
 
-@section('content')
-<div class="container">
+@section('weekly-table-page')
+<div class="">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <h1>Week {{ $week_num }} Scores</h1>
 
-            <table id="weekly-scores-table" class="table table-striped">
+            <table id="weekly-scores-table" class="table">
                 <thead>
                     <tr>
-                        <th colspan="2"></th>
+                        <th colspan="3" class="no-btm-bord"></th>
                         @foreach($games as $game)
-                        <th colspan=2>{{ $game->abbrv_home }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->abbrv_away }}</th>
+                        <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->_abbrv }} ({{ $game->id }})</th>
                         @endforeach
-                        <th rowspan="2">Tot Pts Bet</th>
-                        <th rowspan="2">Tot Pts Won</th>
+                        <th rowspan="2" class="l-bord no-top-bord">Tot Pts Bet</th>
+                        <th rowspan="2" class="no-top-bord">Tot Pts Won</th>
                     </tr>
                     <tr>
-                        <th>#</th>
-                        <th>Player</th>
+                        <th class="no-top-bord">#</th>
+                        <th  class="no-top-bord" colspan="2">Player</th>
                         @for ($i = 1; $i < 11; $i++)
-                            <th>Res</th>
-                            <th>Scr</th>
+                            <th class="l-bord no-top-bord">Res</th>
+                            <th class="no-top-bord">Scr</th>
                         @endfor
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($pred_array as $pred)
+                    @php
+                    if (($loop->index + 1) % 2 == 0) {
+                        $bgd = 'even-row';
+                    } else {
+                        $bgd = 'odd-row';
+                    }
+                    @endphp
                         <tr>
-                            <td rowspan="2">{{ $loop->index + 1 }}</td>
-                            <td rowspan="2">{{ $pred['username'] }}</td>
-                            @for ($i = 1; $i < 11; $i++)
-                            <td colspan="2">{{ $pred[$i]['home_goals']}} - {{ $pred[$i]['away_goals'] }} </td>
-                            @endfor
-                            <td rowspan="2">{{ $pred['tot_pts_bet'] }}</td>
-                            <td rowspan="2">{{ $pred['tot_pts_won'] }}</td>
+                            <td rowspan="2" class="{{ $bgd }}">{{ $loop->index + 1 }}</td>
+                            <td rowspan="2" class="{{ $bgd }}">{{ $pred['username'] }}</td>
+                            <td class="{{ $bgd }}">Prediction</td>
+                            @foreach ($games as $game)
+                            <td colspan="2" class="l-bord {{ $bgd }}">{{ $pred[$game->id]['home_goals']}} - {{ $pred[$game->id]['away_goals'] }} </td>
+                            @endforeach
+                            <td rowspan="2" class="l-bord {{ $bgd }}">{{ $pred['tot_pts_bet'] }}</td>
+                            <td rowspan="2" class="{{ $bgd }}">{{ $pred['tot_pts_won'] }}</td>
                         </tr>
                         <tr>
-                            @for ($i = 1; $i < 11; $i++)
-                            <td>{{ $pred[$i]['res_profit']}}</td>
-                            <td>{{ $pred[$i]['scr_profit']}}</td>
-                            @endfor
+                            <td class="{{ $bgd }}">Pts Bet / Return</td>
+                            @foreach ($games as $game)
+                            @php
+                            $resClass = $pred[$game->id]['res_profit'] > 0 ? 'won' : 'lost';
+                            $scrClass = $pred[$game->id]['scr_profit'] > 0 ? 'won' : 'lost';
+                            @endphp
+                            <td class="l-bord {{ $resClass }}">{{ $pred[$game->id]['res_pts_bet'] }} / {{ $pred[$game->id]['res_profit'] }}</td>
+                            <td class="{{ $scrClass }}">{{ $pred[$game->id]['scr_pts_bet'] }} / {{ $pred[$game->id]['scr_profit'] }}</td>
+                            @endforeach
                         </tr>
                     @endforeach
                 </tbody>

@@ -39,8 +39,51 @@ body {
 /* weekly scores page styles
 -------------------------------------------------- */
 
+.weekly-table-page {
+    width: 100%;
+    padding: 0 30px
+}
+
 #weekly-scores-table {
-    font-size: 0.8em;
+    font-size: 0.7em;
+}
+
+#weekly-scores-table th {
+    background: #d6e3d3;
+}
+
+#weekly-scores-table td,th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.no-btm-bord {
+    border-bottom: none !important;
+}
+
+.no-top-bord {
+    border-top: none !important;
+    border-bottom: 1px solid #777 !important;
+}
+
+.l-bord {
+    border-left: 1px solid #777;
+}
+
+.odd-row {
+    background: #ccc;
+}
+
+.even-row {
+    background: #eee;
+}
+
+.won {
+    background: #93db8c;
+}
+
+.lost {
+    background: #f19693;
 }
 
 

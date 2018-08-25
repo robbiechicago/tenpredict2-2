@@ -32,6 +32,10 @@
         <div class="main-container">
             @yield('content')
         </div>
+        <div class="weekly-table-page">
+            @yield('weekly-table-page')
+        </div>
+        
     </div>
     @yield('js')
 </body>

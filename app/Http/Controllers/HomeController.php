@@ -52,6 +52,7 @@ class HomeController extends Controller
             //GET TIME OF FINAL MATCH
             $last_game_datetimes[$play_week_num] = Game::where('week_id', $week->id)->where('active', 1)->max('kickoff_datetime');
 
+
             //GET WEEKLY SCORES INFO (my score, my rank, hightest score, winner)
             $weeklyScores[$play_week_num] = array();
             $weeklyScores[$play_week_num]['myScore'] = Weeklyscores::where('week_id', $week->id)->where('user_id', $user_id)->where('active', 1)->value('tot_pts_won');
@@ -67,9 +68,8 @@ class HomeController extends Controller
             $weeklyScores[$play_week_num]['winner'] = isset($winner) ? $winner->name : NULL;
         }
 
-        // return $weeklyScores;
-
         // return $last_game_datetimes;
+
         return view('home',[
             'weeks' => $weeks,
             'num_predictions' => $num_predictions,
