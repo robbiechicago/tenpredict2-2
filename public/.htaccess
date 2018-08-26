@@ -9,6 +9,10 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Redirect all to HTTPS (taken directly from Fortrabbit website)
+    RewriteCond %{HTTP:X-Forwarded-Port} !=443
+    RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
