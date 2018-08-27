@@ -15,7 +15,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        $posts = Forum::with('user')->where('active', 1)->orderBy('created_date', 'DESC')->get();
+        $posts = Forum::with('user')->where('active', 1)->orderBy('created_date', 'DESC')->paginate(5);
         
         return view('forum.index')->with(['posts' => $posts]);
     }

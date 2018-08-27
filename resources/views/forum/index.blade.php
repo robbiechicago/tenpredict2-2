@@ -33,5 +33,7 @@
         <div class="col-md-8">{{ $post->post }}</div>
     </div>
     @endforeach
+
+    {{ $posts->links() }} 
 </div>
 @endsection
