@@ -38,7 +38,7 @@ $(document).ready(function() {
                         $('#abbrv_' + full_name).hide();
                         self.hide();
                         $('#show_abbrv_' + full_name).text(abbrv.toUpperCase());
-                    } else 
+                    } 
                 },
                 error: function(jqXHR, textStatus, errorThrown) { 
                     console.log(JSON.stringify(jqXHR));
