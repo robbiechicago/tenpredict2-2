@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Season;
 use App\Prediction;
 use App\Game;
@@ -23,17 +24,104 @@ class AdminController extends Controller
             return redirect('/home')->with('error', 'Authorised users only.');
         }
 
-        $seasons = Season::with('weeks.games.predictions')->orderBy('season', 'DESC')->get();
+        $seasons = Season::with('weeks.games.predictions')
+                         ->orderBy('season', 'DESC')
+                         ->get();
+        
         $users = User::get();
         
-        // return $seasons;
+        $games = Game::from('games AS g')
+                     ->leftJoin('team_abbrv AS ta', 'g.home_team', '=', 'ta.full_name')
+                     ->leftJoin('team_abbrv AS tb', 'g.away_team', '=', 'tb.full_name')
+                     ->where('g.active', 1)
+                     ->select('g.*', 'ta.abbrv AS home_abbrv', 'tb.abbrv AS away_abbrv')
+                     ->get();
+        // return $games;
 
         return view('admin.index', [
             'users' => $users,
-            'seasons' => $seasons
+            'seasons' => $seasons,
+            'games' => $games
         ]);
 
     }
+
+    public function missing_abbrv($week_id) {
+
+        $home_missing_abbrvs = Game::from('games AS g')
+                              ->leftJoin('team_abbrv AS ta', 'ta.full_name', '=', 'g.home_team')
+                              ->where('g.week_id', $week_id)
+                              ->where('g.active', 1)
+                              ->whereNull('ta.abbrv')
+                              ->select('g.home_team')
+                              ->get();
+
+        $away_missing_abbrvs = Game::from('games AS g')
+                              ->leftJoin('team_abbrv AS ta', 'ta.full_name', '=', 'g.away_team')
+                              ->where('g.week_id', $week_id)
+                              ->where('g.active', 1)
+                              ->whereNull('ta.abbrv')
+                              ->select('g.away_team')
+                              ->get();
+        
+        $abbrvless_teams = array();
+        foreach($home_missing_abbrvs as $team) {
+            if (!in_array($team->home_team, $abbrvless_teams)) {
+                array_push($abbrvless_teams, $team->home_team);
+            }
+        }
+        foreach($away_missing_abbrvs as $team) {
+            if (!in_array($team->away_team, $abbrvless_teams)) {
+                array_push($abbrvless_teams, $team->away_team);
+            }
+        }
+        // return $abbrvless_teams;
+
+        return view('admin.add_abbrv', [
+            'abbrvless_teams' => $abbrvless_teams
+        ]);
+
+    }
+
+    public function add_abbrv() {
+
+        $full_name = $_POST['full_name'];
+        $abbrv = strtoupper($_POST['abbrv']);
+
+        $pattern = '/^[A-Z]{3}$/';
+
+        if (!preg_match($pattern, $abbrv)) {
+            return json_encode('regex-fail');
+        }
+
+        $check = DB::table('team_abbrv')->where('full_name', $full_name)->orWhere('abbrv', $abbrv)->get();
+        if (count($check) > 0) {
+            // return json_encode($check[0]->full_name);
+            $full_name_match = false;
+            $abbrv_match = false;
+            if ($check[0]->full_name == $full_name) {
+                $full_name_match = true;
+            }
+            if ($check[0]->abbrv == $abbrv) {
+                $abbrv_match = true;
+            }
+            if ($full_name_match && $abbrv_match) {
+                return json_encode('both-match');
+            } elseif ($full_name_match) {
+                return json_encode('full-name-match');
+            } elseif ($abbrv_match) {
+                return json_encode('abbrv-match');
+            }
+        } else {
+            if (DB::table('team_abbrv')->insert(['full_name' => $full_name, 'abbrv' => $abbrv])) {
+                return json_encode('true');
+            } else {
+                return json_encode('false');
+            }
+        }
+
+    }
+
 
     public function calc_weekly_scores($week_id) {
 

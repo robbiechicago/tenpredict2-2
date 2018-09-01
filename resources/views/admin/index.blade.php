@@ -12,6 +12,7 @@
             <th>Week Num</th>
             <th>Play Week Num</th>
             <th>Num fixtures</th>
+            <th>Missing Abbrv</th>
             <th>Calc Scores</th>
         </tr>
     </thead>
@@ -21,12 +22,29 @@
                 @php
                 $fixtures = count($week->games);
                 $calc_btn = $fixtures < 10 ? '' : '<a href="admin/calc_weekly_scores/' . $week->id . '" class="btn btn-info btn-sm">Calc</a>';
+                $missing_abbrv = 0;
+                foreach ($games as $game) {
+                    if ($game->week_id == $week->id) {
+                        if ($game->home_abbrv == NULL) {
+                            $missing_abbrv++;
+                        }
+                        if ($game->away_abbrv == NULL) {
+                            $missing_abbrv++;
+                        }
+                    }
+                }
+                if ($missing_abbrv == 0) {
+                    $missing_abbrv_link = '';
+                } else {
+                    $missing_abbrv_link = '<a href="admin/missing_abbrv/'.$week->id.'">'.$missing_abbrv.'</a>';
+                }
                 @endphp
                 <tr>
                     <td>{{ $week->id }}</td>
                     <td>{{ $week->week_num }}</td>
                     <td>{{ $week->play_week_num }}</td>
                     <td>{{ $fixtures }}</td>
+                    <td>{!! $missing_abbrv_link !!}</td>
                     <td>{!! $calc_btn !!}</td>
                 </tr>
             @endforeach
