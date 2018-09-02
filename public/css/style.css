@@ -48,8 +48,12 @@ body {
     font-size: 0.7em;
 }
 
-#weekly-scores-table th {
+.head-1 {
     background: #d6e3d3;
+}
+
+.head-2 {
+    background: #b6d1af;
 }
 
 #weekly-scores-table td,th {
@@ -86,6 +90,17 @@ body {
     background: #f19693;
 }
 
+.bgd-1 {
+    background: #a5b0c4;
+}
+
+.bgd-2 {
+    background: #889dc4;
+}
+
+.bgd-3 {
+    background: #6a88c0;
+}
 
 
 /* prediction form modal styles

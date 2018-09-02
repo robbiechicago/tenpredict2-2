@@ -94,7 +94,9 @@ class WeeklyscoresController extends Controller
                 $i++;
             }
             $pred_array[$user->name]['tot_pts_bet'] = $row->tot_pts_bet;
+            $pred_array[$user->name]['num_correct_res'] = $row->num_correct_res;
             $pred_array[$user->name]['pts_won_res'] = $row->pts_won_res;
+            $pred_array[$user->name]['num_correct_scr'] = $row->num_correct_scr;
             $pred_array[$user->name]['pts_won_scr'] = $row->pts_won_scr;
             $pred_array[$user->name]['tot_pts_won'] = $row->tot_pts_won;
 

@@ -9,25 +9,32 @@
             <table id="weekly-scores-table" class="table">
                 <thead>
                     <tr>
-                        <th colspan="3" class="no-btm-bord"></th>
+                        <th colspan="3" class="no-btm-bord head-1"></th>
                         @foreach($games as $game)
-                        <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->away_abbrv }}</th>
+                        {{-- <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->away_abbrv }}</th> --}}
+                        <th colspan=2 class="l-bord no-btm-bord head-1">{{ $game->home_abbrv }} {{ $game->final_home }}<br />{{ $game->away_abbrv }} {{ $game->final_away }}</th>
                         @endforeach
-                        <th rowspan="2" class="l-bord no-top-bord">Tot Pts Bet</th>
-                        <th rowspan="2" class="no-top-bord">Tot Pts Won</th>
+                        <th colspan="2" class="l-bord no-btm-bord head-1"># correct</th>
+                        <th colspan="2" class="l-bord no-btm-bord head-1">Pts won</th>
+                        <th colspan="2" class="l-bord no-btm-bord head-1">Tot pts</th>
                     </tr>
                     <tr>
-                        <th class="no-top-bord">#</th>
-                        <th  class="no-top-bord" colspan="2">Player</th>
-                        @for ($i = 1; $i < 11; $i++)
-                            <th class="l-bord no-top-bord">Res</th>
-                            <th class="no-top-bord">Scr</th>
+                        <th class="no-top-bord head-2" colspan="3"></th>
+                        @for ($i = 1; $i < 13; $i++)
+                            <th class="l-bord no-top-bord head-2">Res</th>
+                            <th class="no-top-bord head-2">Scr</th>
                         @endfor
+                        <th class="l-bord no-top-bord head-2">Bet</th>
+                        <th class="no-top-bord head-2">Won</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($pred_array as $pred)
                     @php
+                    // echo '<pre>';
+                    // print_r($pred);
+                    // echo '</pre>';
+                    // die();
                     if (($loop->index + 1) % 2 == 0) {
                         $bgd = 'even-row';
                     } else {
@@ -37,15 +44,19 @@
                         <tr>
                             <td rowspan="2" class="{{ $bgd }}">{{ $loop->index + 1 }}</td>
                             <td rowspan="2" class="{{ $bgd }}">{{ $pred['username'] }}</td>
-                            <td class="{{ $bgd }}">Prediction</td>
+                            <td class="{{ $bgd }}">Pred</td>
                             @foreach ($games as $game)
                             <td colspan="2" class="l-bord {{ $bgd }}">{{ $pred[$game->id]['home_goals']}} - {{ $pred[$game->id]['away_goals'] }} </td>
                             @endforeach
-                            <td rowspan="2" class="l-bord {{ $bgd }}">{{ $pred['tot_pts_bet'] }}</td>
-                            <td rowspan="2" class="{{ $bgd }}">{{ $pred['tot_pts_won'] }}</td>
+                            <td rowspan="2" class="l-bord bgd-1">{{ $pred['num_correct_res'] }}</td>
+                            <td rowspan="2" class="bgd-1">{{ $pred['num_correct_scr'] }}</td>
+                            <td rowspan="2" class="l-bord bgd-2">{{ $pred['pts_won_res'] }}</td>
+                            <td rowspan="2" class="bgd-2">{{ $pred['pts_won_scr'] }}</td>
+                            <td rowspan="2" class="l-bord bgd-3">{{ $pred['tot_pts_bet'] }}</td>
+                            <td rowspan="2" class="bgd-3">{{ $pred['tot_pts_won'] }}</td>
                         </tr>
                         <tr>
-                            <td class="{{ $bgd }}">Pts Bet / Return</td>
+                            <td class="{{ $bgd }}">Pts</td>
                             @foreach ($games as $game)
                             @php
                             $resClass = $pred[$game->id]['res_profit'] > 0 ? 'won' : 'lost';
