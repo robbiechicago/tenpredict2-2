@@ -24,6 +24,12 @@ body {
     margin-top: 5px;
 }
 
+.home-data-box-data {
+    font-size: 1.15em;
+    font-weight: bolder;
+    padding-top: 15px;
+}
+
 #home-weeks-table {
     margin-top: 20px;
 }

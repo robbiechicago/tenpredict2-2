@@ -11,28 +11,32 @@
                 <h1>Welcome back, {{ Auth::user()->name }}!</h1>
             </div>
 
-            {{-- <div class="row ">
+            <div class="row ">
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Total Points</div>
+                        <div class="home-data-box-data">{{ $my_tot_points }}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">League Position</div>
+                        <div class="home-data-box-data">{{ $my_league_pos }}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Highest Score</div>
+                        <div class="home-data-box-data">{{ $high_score }} (week {{ $high_score }})</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Best Weekly Place</div>
+                        <div class="home-data-box-data"></div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             <table id="home-weeks-table" class="table table-striped table-bordered">
                 <thead>
@@ -91,7 +95,7 @@
                                     }
                                     @endphp
                                     <tr>
-                                        <td>{{ $l + 1 }}</td>
+                                        <td>{{ $league[$l]['rank'] }}</td>
                                         <td>{{ $league[$l]['username'] }}</td>
                                         <td>{{ $user_latest_score }}</td>
                                         <td>{{ $league[$l]['totPoints'] }}</td>
