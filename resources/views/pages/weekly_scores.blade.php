@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
-@section('weekly-table-page')
-<div class="">
+@section('content')
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <h1>Week {{ $week_num }} Scores</h1>

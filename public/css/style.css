@@ -1,12 +1,36 @@
 body {
-    font-family: Montserrat, Arial, Helvetica, sans-serif
+    font-family: Montserrat, Arial, Helvetica, sans-serif;
+    font-size: 0.85rem;
 }
 
 /* home page styles
 -------------------------------------------------- */
 
+#home-container {
+    margin: 20px;
+}
+
+.home-data-box {
+    border: 1px solid #ccc;
+    background: #eee;
+    border-radius: 5px;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.home-data-box-heading {
+    margin-top: 5px;
+}
+
 #home-weeks-table {
     margin-top: 20px;
+}
+
+.home-rh-table {
+    margin: 10px;
+    padding: 10px;
 }
 
 /* prediction page styles
@@ -39,10 +63,10 @@ body {
 /* weekly scores page styles
 -------------------------------------------------- */
 
-.weekly-table-page {
+/* .weekly-table-page {
     width: 100%;
     padding: 0 30px
-}
+} */
 
 #weekly-scores-table {
     font-size: 0.7em;
@@ -208,6 +232,6 @@ html {
 
   .main-container {
       padding-top: 75px;
-      max-width: 1024px;
+      /* max-width: 1024px; */
       margin: 0 auto;
   }

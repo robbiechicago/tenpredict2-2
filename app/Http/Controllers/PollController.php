@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\League;
-use App\User;
-use App\Weeklyscores;
+use App\Poll;
 use Illuminate\Http\Request;
 
-use App\Traits\LeagueTrait;
-
-class LeagueController extends Controller
+class PollController extends Controller
 {
-    use LeagueTrait;
-
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +14,7 @@ class LeagueController extends Controller
      */
     public function index()
     {
-        return view('league.index', [
-            'totScores' => $this->get_league_positions()
-        ]);
+        //
     }
 
     /**
@@ -49,10 +41,10 @@ class LeagueController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\League  $league
+     * @param  \App\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function show(League $league)
+    public function show(Poll $poll)
     {
         //
     }
@@ -60,10 +52,10 @@ class LeagueController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\League  $league
+     * @param  \App\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function edit(League $league)
+    public function edit(Poll $poll)
     {
         //
     }
@@ -72,10 +64,10 @@ class LeagueController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\League  $league
+     * @param  \App\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, League $league)
+    public function update(Request $request, Poll $poll)
     {
         //
     }
@@ -83,13 +75,11 @@ class LeagueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\League  $league
+     * @param  \App\Poll  $poll
      * @return \Illuminate\Http\Response
      */
-    public function destroy(League $league)
+    public function destroy(Poll $poll)
     {
         //
     }
-
-    
 }

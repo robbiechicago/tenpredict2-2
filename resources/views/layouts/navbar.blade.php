@@ -21,6 +21,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin">Admin</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" >&nbsp;&nbsp;||&nbsp;&nbsp;</a>
+                        </li>
                         @endif
                     @endif
                     <li class="nav-item">

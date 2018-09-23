@@ -9,8 +9,13 @@ use App\Game;
 use App\Weeklyscores;
 use Auth;
 
+use App\Traits\LeagueTrait;
+
+
 class HomeController extends Controller
 {
+    use LeagueTrait;
+
     /**
      * Create a new controller instance.
      *
@@ -68,13 +73,26 @@ class HomeController extends Controller
             $weeklyScores[$play_week_num]['winner'] = isset($winner) ? $winner->name : NULL;
         }
 
-        // return $last_game_datetimes;
+        // return $this->get_league_positions();
+        $latest_completed_week_id = Weeklyscores::max('week_id');
+        $latest_completed_week_num = Week::where('id', $latest_completed_week_id)->value('week_num');
+        $latest_week_scores = Weeklyscores::from('weekly_scores AS s')
+                                          ->join('users AS u', 's.user_id', '=', 'u.id')
+                                          ->where('s.week_id', $latest_completed_week_id)
+                                          ->where('s.active', 1)
+                                          ->orderBy('s.tot_pts_won', 'DESC')
+                                          ->get();
+        // return $latest_week_scores;
+        
 
         return view('home',[
             'weeks' => $weeks,
             'num_predictions' => $num_predictions,
             'last_game_datetimes' => $last_game_datetimes,
             'weeklyScores' => $weeklyScores,
+            'league' => $this->get_league_positions(),
+            'latest_completed_week_num' => $latest_completed_week_num,
+            'latest_week_scores' => $latest_week_scores
         ]);
     }
 }
