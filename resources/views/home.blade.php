@@ -27,7 +27,7 @@
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Highest Score</div>
-                        <div class="home-data-box-data">{{ $high_score }} (week {{ $high_score }})</div>
+                        <div class="home-data-box-data">{{ $high_score }}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
