@@ -244,4 +244,30 @@ class AdminController extends Controller
         return $season;
 
     }
+
+    public function add_weekly_score_rank() {
+        $max_week = Weeklyscores::max('week_id');
+
+        for ($i=1; $i <= $max_week ; $i++) { 
+            $scores = Weeklyscores::where('week_id', $i)->where('active', 1)->whereNull('rank')->orderBy('tot_pts_won', 'DESC')->get();
+
+            $rank = 0;
+            $rank_counter = 0;
+            $last_pts = '';
+            $my_league_pos = '';
+            $my_tot_points = 0;
+            foreach ($scores as $key => $value) {
+                if ($scores[$key]['tot_pts_won'] == $last_pts) {
+                    $rank_counter++;
+                } else {
+                    $rank_counter++;
+                    $rank = $rank_counter;
+                    Weeklyscores::where('id', $scores[$key]['id'])->update(['rank' => $rank]);
+                }
+                $scores[$key]['rank'] = $rank;
+                $last_pts = $scores[$key]['tot_pts_won'];
+            }
+
+        }
+    }
 }

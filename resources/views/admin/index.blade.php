@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container-fluid">
+
     <h1>Admin</h1>
+
+    <a href="admin/add_weekly_score_rank/" class="btn btn-warning btn-sm">ranker</a>
 
     <h2>Weeks</h2>
 

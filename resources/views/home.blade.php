@@ -33,7 +33,7 @@
                 <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Best Weekly Place</div>
-                        <div class="home-data-box-data"></div>
+                        <div class="home-data-box-data">{{ $best_rank }} (week{{ $best_week_s }} {{ $best_weeks_string }})</div>
                     </div>
                 </div>
             </div>

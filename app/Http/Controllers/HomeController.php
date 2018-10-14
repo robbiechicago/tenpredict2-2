@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Season;
 use App\Week;
 use App\Game;
@@ -95,6 +97,21 @@ class HomeController extends Controller
         }
         // return $league;
 
+        $best_rank = Weeklyscores::where('user_id', $user_id)->where('active', 1)->min('rank');
+        $best_rank_weeks = Weeklyscores::from('weekly_scores AS ws')
+                                       ->join('weeks AS w', 'w.id', '=', 'ws.week_id')
+                                       ->where('ws.user_id', $user_id)
+                                       ->where('ws.rank', $best_rank)
+                                       ->select('w.play_week_num')
+                                       ->get();
+        
+        $best_weeks = [];
+        foreach ($best_rank_weeks as $week) {
+            array_push($best_weeks, $week->play_week_num);
+        }
+        $best_weeks_string = implode(', ', $best_weeks);
+        $best_week_s = count($best_weeks) > 1 ? 's' : '';
+
         $latest_completed_week_id = Weeklyscores::max('week_id');
         $latest_completed_week_num = Week::where('id', $latest_completed_week_id)->value('week_num');
         $latest_week_scores = Weeklyscores::from('weekly_scores AS s')
@@ -119,6 +136,9 @@ class HomeController extends Controller
             'latest_completed_week_num' => $latest_completed_week_num,
             'latest_week_scores' => $latest_week_scores,
             'high_score' => $high_score,
+            'best_rank' => $best_rank,
+            'best_weeks_string' => $best_weeks_string,
+            'best_week_s' => $best_week_s,
         ]);
     }
 }
