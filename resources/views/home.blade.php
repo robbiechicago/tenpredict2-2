@@ -12,30 +12,30 @@
             </div>
 
             <div class="row ">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Total Points</div>
                         <div class="home-data-box-data">{{ $my_tot_points }}</div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">League Position</div>
                         <div class="home-data-box-data">{{ $my_league_pos }}</div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Highest Score</div>
-                        <div class="home-data-box-data">{{ $high_score }}</div>
+                        <div class="home-data-box-data">{{ $high_score }} (week{{ $hs_best_week_s }} {{ $hs_best_weeks_string }})</div>
                     </div>
                 </div>
-                {{-- <div class="col-md-3">
+                <div class="col-md-3">
                     <div class="home-data-box">
                         <div class="home-data-box-heading">Best Weekly Place</div>
                         <div class="home-data-box-data">{{ $best_rank }} (week{{ $best_week_s }} {{ $best_weeks_string }})</div>
                     </div>
-                </div> --}}
+                </div>
             </div>
 
             <table id="home-weeks-table" class="table table-striped table-bordered">
@@ -52,8 +52,8 @@
                         @php
                             $now = date('Y-m-d H:i:s');
                             $predictText = $now > $last_game_datetimes[$week->play_week_num] ? 'View predictions' : 'Predict Now';
-
-                            $weeklyScoresText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['myScore'];
+                            $myWeekRank = new NumberFormatter('en-GB', NumberFormatter::ORDINAL);
+                            $weeklyScoresText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['myScore'][0]->tot_pts_won . ' ('. $myWeekRank->format($weeklyScores[$week->play_week_num]['myScore'][0]->rank) . ')';
                             $winnerText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['highestScore'].' ('.$weeklyScores[$week->play_week_num]['winner'].')';
 
                         @endphp

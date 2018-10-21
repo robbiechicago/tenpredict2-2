@@ -62,7 +62,7 @@ class HomeController extends Controller
 
             //GET WEEKLY SCORES INFO (my score, my rank, hightest score, winner)
             $weeklyScores[$play_week_num] = array();
-            $weeklyScores[$play_week_num]['myScore'] = Weeklyscores::where('week_id', $week->id)->where('user_id', $user_id)->where('active', 1)->value('tot_pts_won');
+            $weeklyScores[$play_week_num]['myScore'] = Weeklyscores::where('week_id', $week->id)->where('user_id', $user_id)->where('active', 1)->get(['tot_pts_won', 'rank']);
 
             $winner = Weeklyscores::from('weekly_scores AS s')
                                   ->join('users AS u', 's.user_id', '=', 'u.id')
@@ -124,6 +124,18 @@ class HomeController extends Controller
         $high_score = Weeklyscores::where('user_id', $user_id)
                                   ->where('active', 1)
                                   ->max('tot_pts_won');
+        $high_score_weeks = Weeklyscores::from('weekly_scores AS ws')
+                                        ->join('weeks AS w', 'w.id', '=', 'ws.week_id')
+                                        ->where('ws.user_id', $user_id)
+                                        ->where('ws.tot_pts_won', $high_score)
+                                        ->select('w.play_week_num')
+                                        ->get();
+        $hs_best_weeks = [];
+        foreach ($high_score_weeks as $week) {
+            array_push($hs_best_weeks, $week->play_week_num);
+        }
+        $hs_best_weeks_string = implode(', ', $hs_best_weeks);
+        $hs_best_week_s = count($hs_best_weeks) > 1 ? 's' : '';
 
         return view('home',[
             'weeks' => $weeks,
@@ -136,6 +148,8 @@ class HomeController extends Controller
             'latest_completed_week_num' => $latest_completed_week_num,
             'latest_week_scores' => $latest_week_scores,
             'high_score' => $high_score,
+            'hs_best_weeks_string' => $hs_best_weeks_string,
+            'hs_best_week_s' => $hs_best_week_s,
             'best_rank' => $best_rank,
             'best_weeks_string' => $best_weeks_string,
             'best_week_s' => $best_week_s,
