@@ -54,7 +54,7 @@
                             $predictText = $now > $last_game_datetimes[$week->play_week_num] ? 'View predictions' : 'Predict Now';
                             $myWeekRank = new NumberFormatter('en-GB', NumberFormatter::ORDINAL);
                             $weeklyScoresText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['myScore'][0]->tot_pts_won . ' ('. $myWeekRank->format($weeklyScores[$week->play_week_num]['myScore'][0]->rank) . ')';
-                            $winnerText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['highestScore'].' ('.$weeklyScores[$week->play_week_num]['winner'].')';
+                            $winnerText = $weeklyScores[$week->play_week_num]['highestScore'] == NULL ? '' : $weeklyScores[$week->play_week_num]['winner'].' ('.$weeklyScores[$week->play_week_num]['highestScore'].')';
 
                         @endphp
                         <tr>

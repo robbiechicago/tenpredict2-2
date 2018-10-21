@@ -64,15 +64,33 @@ class HomeController extends Controller
             $weeklyScores[$play_week_num] = array();
             $weeklyScores[$play_week_num]['myScore'] = Weeklyscores::where('week_id', $week->id)->where('user_id', $user_id)->where('active', 1)->get(['tot_pts_won', 'rank']);
 
-            $winner = Weeklyscores::from('weekly_scores AS s')
-                                  ->join('users AS u', 's.user_id', '=', 'u.id')
-                                  ->where('s.week_id', $week->id)
-                                  ->where('s.active', 1)
-                                  ->orderBy('s.tot_pts_won', 'DESC')
-                                  ->first();
+            if (Weeklyscores::where('week_id', $week->id)->exists()) {
 
-            $weeklyScores[$play_week_num]['highestScore'] = isset($winner) ? $winner->tot_pts_won : NULL;
-            $weeklyScores[$play_week_num]['winner'] = isset($winner) ? $winner->name : NULL;
+                $week_high_score = Weeklyscores::where('week_id', $week->id)
+                                               ->where('active', 1)
+                                               ->max('tot_pts_won');
+                
+                $winner = Weeklyscores::from('weekly_scores AS s')
+                                      ->join('users AS u', 's.user_id', '=', 'u.id')
+                                      ->where('s.week_id', $week->id)
+                                      ->where('s.active', 1)
+                                      ->where('s.tot_pts_won', $week_high_score)
+                                      ->get(); 
+
+                $weeklyScores[$play_week_num]['highestScore'] = isset($winner) ? $winner[0]->tot_pts_won : NULL;
+                if (count($winner) > 1) {
+                    $winners = [];
+                    foreach ($winner as $row) {
+                        array_push($winners, $row->name);
+                    }
+                    $weeklyScores[$play_week_num]['winner'] = implode(', ', $winners);
+                } else {
+                    $weeklyScores[$play_week_num]['winner'] = isset($winner) ? $winner[0]->name : NULL;
+                }
+            } else {
+                $weeklyScores[$play_week_num]['highestScore'] = NULL;
+                $weeklyScores[$play_week_num]['winner'] = NULL;
+            }
         }
 
         $league = $this->get_league_positions();
