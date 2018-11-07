@@ -34,4 +34,8 @@ class User extends Authenticatable
     public function predictions() {
         return $this->hasMany(Prediction::class);
     }
+
+    public function pollvotes() {
+        return $this->hasMany('App\PollVotes');
+    }
 }

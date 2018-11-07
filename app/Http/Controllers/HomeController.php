@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Season;
 use App\Week;
 use App\Game;
+use App\Poll;
 use App\Weeklyscores;
 use Auth;
 
@@ -36,9 +38,11 @@ class HomeController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
+        // $user_id = 10;
 
         $weeks = Week::with(['games.predictions' => function($query) {
             $user_id = Auth::user()->id; //dont think this can be removed, despite the duplication (scope)
+            // $user_id = 10;
             $query->where('predictions.user_id', $user_id);
         }])->whereHas('games')->orderBy('play_week_num', 'DESC')->get();
 
@@ -63,6 +67,7 @@ class HomeController extends Controller
             //GET WEEKLY SCORES INFO (my score, my rank, hightest score, winner)
             $weeklyScores[$play_week_num] = array();
             $weeklyScores[$play_week_num]['myScore'] = Weeklyscores::where('week_id', $week->id)->where('user_id', $user_id)->where('active', 1)->get(['tot_pts_won', 'rank']);
+            
 
             if (Weeklyscores::where('week_id', $week->id)->exists()) {
 
@@ -155,6 +160,15 @@ class HomeController extends Controller
         $hs_best_weeks_string = implode(', ', $hs_best_weeks);
         $hs_best_week_s = count($hs_best_weeks) > 1 ? 's' : '';
 
+        $now = Carbon::now()->toDateTimeString();
+        $poll = Poll::with('answers.votes')
+                    ->whereDate('start_datetime', '<', $now)
+                    ->whereDate('end_datetime', '>', $now)
+                    ->first();
+        // return $poll;
+
+        // return $weeklyScores;
+
         return view('home',[
             'weeks' => $weeks,
             'num_predictions' => $num_predictions,
@@ -171,6 +185,7 @@ class HomeController extends Controller
             'best_rank' => $best_rank,
             'best_weeks_string' => $best_weeks_string,
             'best_week_s' => $best_week_s,
+            'poll' => $poll,
         ]);
     }
 }
