@@ -6,7 +6,8 @@
         <hr>
         
         @php
-        $voted = false;   
+        $voted = false;
+        $my_vote = '';   
         $tot_votes = 0;
         
         foreach ($poll->answers as $ans) {
@@ -15,6 +16,7 @@
                 foreach ($ans->votes as $vote) {
                     if ($vote->user_id == Auth::id()) {
                         $voted = true;
+                        $my_vote = $ans->answer;
                     }
                 }
             }
@@ -55,8 +57,11 @@
         @endforeach
         
         <hr>
-
+        @if ($voted)
+            <span><em>Total votes: {{ $tot_votes }}. You voted for "{{ $my_vote }}".</em></span>
+        @else
         <button id="poll-submit" class="btn btn-warning border-dark float-right" style="visibility: hidden;">Vote!</button>
+        @endif
         <div style="clear: both;"></div>
     </div>
 </div> 
