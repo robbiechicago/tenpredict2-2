@@ -85,7 +85,7 @@ class AdminController extends Controller
 
     public function add_abbrv() {
 
-        $full_name = $_POST['full_name'];
+        $full_name = str_replace('_', ' ', $_POST['full_name']);
         $abbrv = strtoupper($_POST['abbrv']);
 
         $pattern = '/^[A-Z]{3}$/';

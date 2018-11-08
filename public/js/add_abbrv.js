@@ -18,7 +18,6 @@ $(document).ready(function() {
             //PATTERN DOES NOT MATCH
             $('#error_' + full_name).text('Abbrv must be 3 letters. Try again, chump.')
         } else {
-
             $('#error_' + full_name).text('');
 
             $.ajax({
@@ -31,7 +30,6 @@ $(document).ready(function() {
                 },
                 success: function(result) {
                     var res = JSON.parse(result)
-                    console.log(res)
                     if (res == 'true') {
                         $('#tick_' + full_name).show();
                         $('#error_' + full_name).hide();
