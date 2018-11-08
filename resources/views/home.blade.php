@@ -15,11 +15,9 @@
 
         <div class="row">
             <div class="col-sm-8">
-                <div class="row">
+                <div class="row data-box-container d-none d-sm-flex">
                     @include('partials.partial_home_data_boxes')
                 </div>
-
-                <hr>
 
                 <div class="row">
                     @include('partials.partial_home_main_pred_table')
