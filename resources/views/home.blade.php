@@ -19,6 +19,10 @@
                     @include('partials.partial_home_data_boxes')
                 </div>
 
+                <div class="row d-sm-none">
+                    @include('partials.partial_home_sb_poll')
+                </div>
+
                 <div class="row">
                     @include('partials.partial_home_main_pred_table')
                 </div>
@@ -27,7 +31,7 @@
             {{-- SIDEBAR --}}
             <div id="home-sidebar" class="col-sm-4">
 
-                <div class="row">
+                <div class="row d-none d-sm-flex">
                     @include('partials.partial_home_sb_poll')
                 </div>
 
