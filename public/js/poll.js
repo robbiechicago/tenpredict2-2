@@ -2,7 +2,8 @@ $(document).ready(function() {
     console.log('Poll');
 
     $('.poll-radio').change(function() {
-        $('.poll-submit').css('visibility', 'visible');
+        $('.poll-submit').show();
+        $('.poll-submit-disabled').hide();
     })
 
     $('#poll-submit').click(function() {
