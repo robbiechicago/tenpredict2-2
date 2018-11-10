@@ -6,7 +6,7 @@ $(document).ready(function() {
         $('.poll-submit-disabled').hide();
     })
 
-    $('#poll-submit').click(function() {
+    $('.poll-submit').click(function() {
         var poll_id_text = $('.poll-radio:checked').attr('name');
         var poll_id = poll_id_text.substring(5);
         var poll_val = $('.poll-radio:checked').val();
