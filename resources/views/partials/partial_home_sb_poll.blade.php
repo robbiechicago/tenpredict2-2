@@ -60,7 +60,7 @@
         @if ($voted)
             <span><em>Total votes: {{ $tot_votes }}. You voted for "{{ $my_vote }}".</em></span>
         @else
-        <button id="poll-submit" class="btn btn-warning border-dark float-right" style="visibility: hidden;">Vote!</button>
+        <button class="btn btn-warning border-dark float-right poll-submit" style="visibility: hidden;">Vote!</button>
         @endif
         <div style="clear: both;"></div>
     </div>

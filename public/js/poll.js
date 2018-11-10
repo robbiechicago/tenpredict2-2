@@ -2,7 +2,7 @@ $(document).ready(function() {
     console.log('Poll');
 
     $('.poll-radio').change(function() {
-        $('#poll-submit').css('visibility', 'visible');
+        $('.poll-submit').css('visibility', 'visible');
     })
 
     $('#poll-submit').click(function() {
