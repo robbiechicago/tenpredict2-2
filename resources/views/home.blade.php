@@ -19,8 +19,14 @@
                     @include('partials.partial_home_data_boxes')
                 </div>
 
-                <div class="row d-sm-none">
-                    @include('partials.partial_home_sb_poll')
+                @if ($poll)
+                    <div class="row d-sm-none">
+                        @include('partials.partial_home_sb_poll')
+                    </div>
+                @endif
+
+                <div class="row sudden-death-container">
+                    @include('partials.partial_home_sudden_death')
                 </div>
 
                 <div class="row">
@@ -31,9 +37,11 @@
             {{-- SIDEBAR --}}
             <div id="home-sidebar" class="col-sm-4">
 
-                <div class="row d-none d-sm-flex">
-                    @include('partials.partial_home_sb_poll')
-                </div>
+                @if ($poll)
+                    <div class="row d-none d-sm-flex">
+                        @include('partials.partial_home_sb_poll')
+                    </div>
+                @endif
 
                 <div class="row">
                     @include('partials.partial_home_sb_league_table')
@@ -52,4 +60,5 @@
 
 @section('js')
 <script src="{{ asset('js/poll.js') }}" defer></script>
+<script src="{{ asset('js/sudden_death.js') }}" defer></script>
 @endsection

@@ -42,6 +42,22 @@ body {
     padding-top: 15px;
 }
 
+.sudden-death-container {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid black;
+    background: #dfabab;
+    border-radius: 10px;
+}
+
+.sd-history {
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: #eee;
+    vertical-align: middle;
+}
+
 .poll-container {
     padding: 0 10px 10px 10px;
 }

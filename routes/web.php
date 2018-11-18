@@ -7,6 +7,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('pollvotes/store', 'PollVotesController@store');
 
+Route::post('suddendeathpicks/store', 'SuddenDeathPicksController@store');
+
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/calc_weekly_scores/{week_id}', 'AdminController@calc_weekly_scores');
 Route::get('/admin/add_weekly_score_rank', 'AdminController@add_weekly_score_rank');

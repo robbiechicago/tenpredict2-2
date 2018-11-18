@@ -10,6 +10,9 @@ use App\Season;
 use App\Week;
 use App\Game;
 use App\Poll;
+use App\Settings;
+use App\SuddenDeath;
+use App\SuddenDeathPicks;
 use App\Weeklyscores;
 use Auth;
 
@@ -46,10 +49,27 @@ class HomeController extends Controller
             $query->where('predictions.user_id', $user_id);
         }])->whereHas('games')->orderBy('play_week_num', 'DESC')->get();
 
+        // return $weeks;
+
         $num_predictions = array();
         $last_game_datetimes = array();
         $weeklyScores = array();
+        $now = Carbon::now()->toDateTimeString();
+        $sd_teams = [];
+
         foreach ($weeks as $week) {
+            //GET CURRENT WEEK
+            $week_monday = Carbon::parse($week->week_saturday)->subDays(5)->toDateString();
+            $week_sunday = Carbon::parse($week->week_saturday)->addDays(1)->toDateString();
+            if ($now > Carbon::parse($week_monday)->startOfDay() && $now < Carbon::parse($week_sunday)->endOfDay()) {
+                $current_week = $week->id;
+                foreach ($week->games as $game) {
+                    array_push($sd_teams, $game->home_team);
+                    array_push($sd_teams, $game->away_team);
+                }
+                sort($sd_teams);
+            }
+
             //GET NUMBER OF PREDICTIONS
             $play_week_num = $week->play_week_num;
             $num_pred = 0;
@@ -160,12 +180,50 @@ class HomeController extends Controller
         $hs_best_weeks_string = implode(', ', $hs_best_weeks);
         $hs_best_week_s = count($hs_best_weeks) > 1 ? 's' : '';
 
-        $now = Carbon::now()->toDateTimeString();
         $poll = Poll::with('answers.votes')
                     ->whereDate('start_datetime', '<', $now)
                     ->whereDate('end_datetime', '>', $now)
                     ->first();
         // return $poll;
+
+        //SUDDEN DEATH
+        $sd_running = Settings::where('setting', 'sudden_death_on')->value('value');
+        if ($sd_running) {   
+            $sd = SuddenDeath::orderBy('id', 'DESC')->first();
+            if ($current_week >= $sd->start_week_id) {
+                // return $sd;
+                $first_week = $current_week == $sd->start_week_id ? true : false;
+                if ($first_week) {
+                    $still_in = true;
+                } else {
+                    $picks = SuddenDeathPicks::where('user_id', $user_id)->where('sudden_death_id', $sd->id)->orderBy('week_id', 'ASC')->get();
+                    if (isset($picks) && count($picks) > 0) {
+                        // return $picks;
+                        foreach ($picks as $pick) {
+                            if ($pick->result == 'lost') {
+                                $still_in = false;
+                            } else {
+                                $still_in = true;
+                                if (($key = array_search($pick->team_picked, $sd_teams)) !== false) {
+                                    unset($sd_teams[$key]);
+                                }
+                            }
+                        }
+                    } else {
+                        $still_in = false;
+                    }
+                }
+
+                if ($still_in) {
+
+                    // return $sd_teams;
+                }
+                 
+                // return $picks;
+                //Get week - need to know if it's the first week of the round
+            }
+        }
+
 
         // return $weeklyScores;
 
@@ -186,6 +244,8 @@ class HomeController extends Controller
             'best_weeks_string' => $best_weeks_string,
             'best_week_s' => $best_week_s,
             'poll' => $poll,
+            'sd_running' => $sd_running,
+            'sd_teams' => $sd_teams,
         ]);
     }
 }
