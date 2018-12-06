@@ -6,25 +6,27 @@
     <h1>Forum</h1>
 
     @auth
-    <div class="row">
-        <div class="col-lg-12">
-            {!! Form::open(array('action' => 'ForumController@store', 'method', 'POST')) !!}
+        @if (Auth::user()->paid)
+        <div class="row">
+            <div class="col-lg-12">
+                {!! Form::open(array('action' => 'ForumController@store', 'method', 'POST')) !!}
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        {{ Form::textarea('post', '', ['class' => 'form-control', 'placeholder' => 'Chat here...', 'rows' => 4]) }}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {{ Form::textarea('post', '', ['class' => 'form-control', 'placeholder' => 'Chat here...', 'rows' => 4]) }}
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        {{ Form::submit('Submit', ['class' => 'btn btn-primary float-right']) }}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {{ Form::submit('Submit', ['class' => 'btn btn-primary float-right']) }}
+                        </div>
                     </div>
-                </div>
 
-            {!! Form::close() !!}
+                {!! Form::close() !!}
+            </div>
         </div>
-    </div>
+        @endif
     @endauth
 
     @foreach ($posts as $post)
