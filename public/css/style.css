@@ -135,6 +135,12 @@ li.poll-answer label {
     font-size: 0.9em;
 }
 
+/* sudden death styles
+-------------------------------------------------- */
+.sd-selected-team {
+    color: tomato;
+}
+
 
 
 /* prediction page styles

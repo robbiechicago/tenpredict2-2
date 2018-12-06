@@ -14,7 +14,10 @@ class SuddenDeathController extends Controller
      */
     public function index()
     {
-        //
+        $latest_sd = SuddenDeath::orderBy('id', 'DESC')->first();
+        $first_week = $latest_sd->is_first_week($current_week);
+
+        return view('sudden_death.index',[]);
     }
 
     /**

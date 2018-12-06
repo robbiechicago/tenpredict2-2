@@ -2,10 +2,9 @@ $(document).ready(function() {
     console.log('Sudden Death');
 
     $('.sd_option').on('click', function() {
-        console.log('clicky');
-        var team = $(this).text();
+        var selected_button = $(this);
+        var team = selected_button.val();
         var csrf = $('#sd-title').data('csrf');
-        console.log(team);
 
         $.ajax({
             method: 'POST',
@@ -15,8 +14,18 @@ $(document).ready(function() {
                     'team' : team,
                 },
                 success: function(res) {
-                    console.log(res)
-                    // location.reload();
+                    // console.log(res)
+                    if (res == 1) {
+                        $('#dropdownMenuButton').text(team);
+                        $('.sd-button-text').each(function() {
+                            $(this).removeClass('sd-selected-team');
+                            $(this).find('.sd-icon').removeClass('fas fa-check');
+                            if ($(this).parent().val() == team) {
+                                $(this).addClass('sd-selected-team');
+                                $(this).find('.sd-icon').addClass('fas fa-check');
+                            }
+                        })
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) { 
                     // console.log(JSON.stringify(jqXHR));

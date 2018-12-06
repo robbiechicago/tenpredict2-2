@@ -187,38 +187,41 @@ class HomeController extends Controller
         // return $poll;
 
         //SUDDEN DEATH
+        $current_week_sd_pick = '';
         $sd_running = Settings::where('setting', 'sudden_death_on')->value('value');
         if ($sd_running) {   
             $sd = SuddenDeath::orderBy('id', 'DESC')->first();
             if ($current_week >= $sd->start_week_id) {
                 // return $sd;
-                $first_week = $current_week == $sd->start_week_id ? true : false;
+                $first_week = $sd->is_first_week($current_week);
                 if ($first_week) {
-                    $still_in = true;
+                    $sd_still_in = true;
                 } else {
                     $picks = SuddenDeathPicks::where('user_id', $user_id)->where('sudden_death_id', $sd->id)->orderBy('week_id', 'ASC')->get();
                     if (isset($picks) && count($picks) > 0) {
                         // return $picks;
                         foreach ($picks as $pick) {
                             if ($pick->result == 'lost') {
-                                $still_in = false;
+                                $sd_still_in = false;
                             } else {
-                                $still_in = true;
-                                if (($key = array_search($pick->team_picked, $sd_teams)) !== false) {
-                                    unset($sd_teams[$key]);
+                                $sd_still_in = true;
+                                if ($pick->week_id == $current_week) {
+                                    $current_week_sd_pick = $pick->team_picked;
+                                } else {
+                                    if (($key = array_search($pick->team_picked, $sd_teams)) !== false) {
+                                        unset($sd_teams[$key]);
+                                    }
                                 }
                             }
                         }
                     } else {
-                        $still_in = false;
+                        $sd_still_in = false;
                     }
                 }
-
-                if ($still_in) {
+                if ($sd_still_in) {
 
                     // return $sd_teams;
                 }
-                 
                 // return $picks;
                 //Get week - need to know if it's the first week of the round
             }
@@ -245,7 +248,9 @@ class HomeController extends Controller
             'best_week_s' => $best_week_s,
             'poll' => $poll,
             'sd_running' => $sd_running,
+            'sd_still_in' => $sd_still_in,
             'sd_teams' => $sd_teams,
+            'current_week_sd_pick' => $current_week_sd_pick,
         ]);
     }
 }
