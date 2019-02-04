@@ -43,13 +43,17 @@ class HomeController extends Controller
         $user_id = Auth::user()->id;
         // $user_id = 10;
 
-        $weeks = Week::with(['games.predictions' => function($query) {
-            $user_id = Auth::user()->id; //dont think this can be removed, despite the duplication (scope)
+        $weeks = Week::with(['games.predictions' => function($query) use ($user_id) {
+            // $user_id = Auth::user()->id; //dont think this can be removed, despite the duplication (scope)
             // $user_id = 10;
             $query->where('predictions.user_id', $user_id);
         }])->whereHas('games')->orderBy('play_week_num', 'DESC')->get();
 
         // return $weeks;
+
+        $get_current_week = new Week;
+        $current_week_obj = $get_current_week->current_week();
+        $current_week = $current_week_obj->id;
 
         $num_predictions = array();
         $last_game_datetimes = array();
@@ -57,12 +61,10 @@ class HomeController extends Controller
         $now = Carbon::now()->toDateTimeString();
         $sd_teams = [];
 
+        $current_week = 0;
         foreach ($weeks as $week) {
-            //GET CURRENT WEEK
-            $week_monday = Carbon::parse($week->week_saturday)->subDays(5)->toDateString();
-            $week_sunday = Carbon::parse($week->week_saturday)->addDays(1)->toDateString();
-            if ($now > Carbon::parse($week_monday)->startOfDay() && $now < Carbon::parse($week_sunday)->endOfDay()) {
-                $current_week = $week->id;
+
+            if ($week->id == $current_week) {
                 foreach ($week->games as $game) {
                     array_push($sd_teams, $game->home_team);
                     array_push($sd_teams, $game->away_team);
@@ -187,44 +189,11 @@ class HomeController extends Controller
         // return $poll;
 
         //SUDDEN DEATH
-        $current_week_sd_pick = '';
         $sd_running = Settings::where('setting', 'sudden_death_on')->value('value');
         if ($sd_running) {   
-            $sd = SuddenDeath::orderBy('id', 'DESC')->first();
-            if ($current_week >= $sd->start_week_id) {
-                // return $sd;
-                $first_week = $sd->is_first_week($current_week);
-                if ($first_week) {
-                    $sd_still_in = true;
-                } else {
-                    $picks = SuddenDeathPicks::where('user_id', $user_id)->where('sudden_death_id', $sd->id)->orderBy('week_id', 'ASC')->get();
-                    if (isset($picks) && count($picks) > 0) {
-                        // return $picks;
-                        foreach ($picks as $pick) {
-                            if ($pick->result == 'lost') {
-                                $sd_still_in = false;
-                            } else {
-                                $sd_still_in = true;
-                                if ($pick->week_id == $current_week) {
-                                    $current_week_sd_pick = $pick->team_picked;
-                                } else {
-                                    if (($key = array_search($pick->team_picked, $sd_teams)) !== false) {
-                                        unset($sd_teams[$key]);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        $sd_still_in = false;
-                    }
-                }
-                if ($sd_still_in) {
-
-                    // return $sd_teams;
-                }
-                // return $picks;
-                //Get week - need to know if it's the first week of the round
-            }
+            $sd = new SuddenDeath;
+            $my_current_sd = $sd->my_current_sd($user_id);
+            return $my_current_sd;
         }
 
 
@@ -247,10 +216,6 @@ class HomeController extends Controller
             'best_weeks_string' => $best_weeks_string,
             'best_week_s' => $best_week_s,
             'poll' => $poll,
-            'sd_running' => $sd_running,
-            'sd_still_in' => $sd_still_in,
-            'sd_teams' => $sd_teams,
-            'current_week_sd_pick' => $current_week_sd_pick,
         ]);
     }
 }

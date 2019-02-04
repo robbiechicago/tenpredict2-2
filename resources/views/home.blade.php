@@ -26,7 +26,7 @@
                 @endif
 
                 <div class="row sudden-death-container">
-                    @include('partials.partial_home_sudden_death')
+                    {{-- @include('partials.partial_home_sudden_death') --}}
                 </div>
 
                 <div class="row">

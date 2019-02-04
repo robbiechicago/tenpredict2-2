@@ -11,7 +11,4 @@ class Season extends Model
         return $this->hasMany(Week::class);
     }
 
-    public function current_season() {
-        return $this->where('current', '1')->first();
-    }
 }

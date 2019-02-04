@@ -1,7 +1,7 @@
 <div class="col-sm-12">
     <div class="row">
         <div class="col-sm-12">
-            <h3 id="sd-title" data-csrf="{{ csrf_token() }}">Sudden Death</h3>
+            <h3 id="sd-title" data-csrf="{{ csrf_token() }}">Sudden Death - Round {{ $sd->round }}</h3>
         </div>
     </div>
     <div class="row">

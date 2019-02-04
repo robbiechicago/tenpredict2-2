@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Season;
 use App\SuddenDeath;
+use App\User;
+use App\Week;
+
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SuddenDeathController extends Controller
@@ -14,10 +20,39 @@ class SuddenDeathController extends Controller
      */
     public function index()
     {
-        $latest_sd = SuddenDeath::orderBy('id', 'DESC')->first();
-        $first_week = $latest_sd->is_first_week($current_week);
+        $user_id = Auth::user()->id;
 
-        return view('sudden_death.index',[]);
+        $users = User::with('suddenDeathPicks')->get();
+        // return $users;
+
+        $all_sd = SuddenDeath::orderBy('start_week_id', 'DESC')->get();
+        // return $all_sd;
+
+        $sd_array = [];
+        foreach ($all_sd as $key => $value) {
+            $sd = SuddenDeath::with('picksByUserWeek.user')->find($all_sd[$key]->id);
+            $sd_array[$sd->id]['sd'] = $sd;
+            $sd_array[$sd->id]['min_week'] = $sd->picksByUserWeek->min('week_id');
+            $sd_array[$sd->id]['max_week'] = $sd->picksByUserWeek->max('week_id');
+            $sd_array[$sd->id]['players'] = [];
+            foreach ($sd->picksByUserWeek as $pick) {
+                if (!in_array($pick->user->name, $sd_array[$sd->id]['players'])) {
+                    array_push($sd_array[$sd->id]['players'], $pick->user->name);
+                }
+            }
+        }
+
+        // return $sd_array;
+
+
+
+        
+
+        return view('sudden_death.index',[
+            'users' => $users,
+            'sd_array' => $sd_array,
+        ]);
+
     }
 
     /**

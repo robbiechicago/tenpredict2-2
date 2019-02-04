@@ -38,4 +38,8 @@ class User extends Authenticatable
     public function pollvotes() {
         return $this->hasMany('App\PollVotes');
     }
+
+    public function suddenDeathPicks() {
+        return $this->hasMany('App\SuddenDeathPicks');
+    }
 }

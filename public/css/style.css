@@ -3,6 +3,13 @@ body {
     font-size: 0.80rem;
 }
 
+/* general styles
+-------------------------------------------------- */
+
+.table-nonfluid {
+    width: auto !important;
+ }
+
 /* home page styles
 -------------------------------------------------- */
 
