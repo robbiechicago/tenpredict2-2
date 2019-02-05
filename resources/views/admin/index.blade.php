@@ -69,7 +69,6 @@
 
 
         <div class="col-md-6">
-            <a href="admin/calc_weekly_scores/1" class="btn btn-info">calc weekly scores</a>
 
             <h2>Users</h2>
 

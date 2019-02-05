@@ -202,6 +202,10 @@ li.poll-answer label {
     background: #f19693;
 }
 
+.postponed {
+    background: #54b4cc;
+}
+
 .bgd-1 {
     background: #a5b0c4;
 }

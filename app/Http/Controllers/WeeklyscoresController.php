@@ -65,18 +65,18 @@ class WeeklyscoresController extends Controller
                         $pred_array[$user->name][$game->id]['kickoff_datetime'] = $pred->kickoff_datetime;
                         $pred_array[$user->name][$game->id]['home_goals'] = $pred->home_goals;
                         $pred_array[$user->name][$game->id]['away_goals'] = $pred->away_goals;
-                        $pred_array[$user->name][$game->id]['final_home'] = $pred->final_home;
-                        $pred_array[$user->name][$game->id]['final_away'] = $pred->final_away;
+                        $pred_array[$user->name][$game->id]['final_home'] = $pred->postponed == 0 ? $pred->final_home : 'p';
+                        $pred_array[$user->name][$game->id]['final_away'] = $pred->postponed == 0 ? $pred->final_away : 'p'; 
                         $pred_result = $this->get_result($pred->home_goals, $pred->away_goals);
-                        $game_result = $this->get_result($pred->final_home, $pred->final_away);
+                        $game_result = $pred->postponed == 0 ? $this->get_result($pred->final_home, $pred->final_away) : 'postponed';
                         $pred_array[$user->name][$game->id]['pred_result'] = $pred_result;
                         $pred_array[$user->name][$game->id]['game_result'] = $game_result;
                         $pred_array[$user->name][$game->id]['res_pts_bet'] = $pred->result_points;
-                        $pred_array[$user->name][$game->id]['res_profit'] = $pred_result == $game_result ? (int)$pred->result_points * 2 : 0 - (int)$pred->result_points;
-                        $pred_array[$user->name][$game->id]['res_result'] = $pred_result == $game_result ? 'CORRECT RESULT' : 'wrong result';
+                        $pred_array[$user->name][$game->id]['res_profit'] = $pred->postponed == 0 ? ($pred_result == $game_result ? (int)$pred->result_points * 2 : 0 - (int)$pred->result_points) : 0;
+                        $pred_array[$user->name][$game->id]['res_result'] = $pred->postponed == 0 ? ($pred_result == $game_result ? 'CORRECT RESULT' : 'wrong result') : 'postponed';
                         $pred_array[$user->name][$game->id]['scr_pts_bet'] = $pred->score_points;
-                        $pred_array[$user->name][$game->id]['scr_profit'] = ($pred->home_goals == $pred->final_home && $pred->away_goals == $pred->final_away) ? (int)$pred->score_points * 5 : 0 - (int)$pred->score_points;
-                        $pred_array[$user->name][$game->id]['scr_result'] = ($pred->home_goals == $pred->final_home && $pred->away_goals == $pred->final_away) ? 'CORRECT SCORE' : 'wrong score';
+                        $pred_array[$user->name][$game->id]['scr_profit'] = $pred->postponed == 0 ? (($pred->home_goals == $pred->final_home && $pred->away_goals == $pred->final_away) ? (int)$pred->score_points * 5 : 0 - (int)$pred->score_points) : 0;
+                        $pred_array[$user->name][$game->id]['scr_result'] = $pred->postponed == 0 ? (($pred->home_goals == $pred->final_home && $pred->away_goals == $pred->final_away) ? 'CORRECT SCORE' : 'wrong score') : 'postponed';
                     }
                     
                 }

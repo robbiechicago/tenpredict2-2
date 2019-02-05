@@ -11,8 +11,7 @@
                     <tr>
                         <th colspan="3" class="no-btm-bord head-1"></th>
                         @foreach($games as $game)
-                        {{-- <th colspan=2 class="l-bord no-btm-bord">{{ $game->home_abbrv }} {{ $game->final_home }} - {{ $game->final_away }} {{ $game->away_abbrv }}</th> --}}
-                        <th colspan=2 class="l-bord no-btm-bord head-1">{{ $game->home_abbrv }} {{ $game->final_home }}<br />{{ $game->away_abbrv }} {{ $game->final_away }}</th>
+                        <th colspan=2 class="l-bord no-btm-bord head-1">{{ $game->home_abbrv }} {{ $game->postponed == 0 ? $game->final_home : 'P' }}<br />{{ $game->away_abbrv }} {{ $game->postponed == 0 ? $game->final_away : 'P' }}</th>
                         @endforeach
                         <th colspan="2" class="l-bord no-btm-bord head-1"># correct</th>
                         <th colspan="2" class="l-bord no-btm-bord head-1">Pts won</th>
@@ -59,8 +58,8 @@
                             <td class="{{ $bgd }}">Pts</td>
                             @foreach ($games as $game)
                             @php
-                            $resClass = $pred[$game->id]['res_profit'] > 0 ? 'won' : 'lost';
-                            $scrClass = $pred[$game->id]['scr_profit'] > 0 ? 'won' : 'lost';
+                            $resClass = $game->postponed == 0 ? ($pred[$game->id]['res_profit'] > 0 ? 'won' : 'lost') : 'postponed';
+                            $scrClass = $game->postponed == 0 ? ($pred[$game->id]['scr_profit'] > 0 ? 'won' : 'lost') : 'postponed';
                             @endphp
                             <td class="l-bord {{ $resClass }}">{{ $pred[$game->id]['res_pts_bet'] }} / {{ $pred[$game->id]['res_profit'] }}</td>
                             <td class="{{ $scrClass }}">{{ $pred[$game->id]['scr_pts_bet'] }} / {{ $pred[$game->id]['scr_profit'] }}</td>

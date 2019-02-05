@@ -162,13 +162,15 @@ class AdminController extends Controller
                     $no_pred = true;
                     foreach ($predictions as $pred) {
                         if ($pred->game_id == $game->id) {
-                            $weekly_scores['pts_bet_res'] += $pred->result_points;
-                            $weekly_scores['pts_bet_scr'] += $pred->score_points;
-                            $weekly_scores['tot_pts_bet'] += ($pred->result_points + $pred->score_points);
-                            $calc_pred = $this->calc_pred($pred->home_goals, $pred->away_goals, $pred->result_points, $pred->score_points, $game->final_home, 
-                            $game->final_away);
                             $no_pred = false;
-                        }
+                            if ($game->postponed == 0) {
+                                $weekly_scores['pts_bet_res'] += $pred->result_points;
+                                $weekly_scores['pts_bet_scr'] += $pred->score_points;
+                                $weekly_scores['tot_pts_bet'] += ($pred->result_points + $pred->score_points);
+                                $calc_pred = $this->calc_pred($pred->home_goals, $pred->away_goals, $pred->result_points, $pred->score_points, $game->final_home, 
+                                $game->final_away);
+                            }
+                        } 
                     }
                     if ($no_pred) {
                         $calc_pred['res_profit'] = -1;
@@ -177,11 +179,13 @@ class AdminController extends Controller
                         $weekly_scores['pts_bet_scr'] += 1;
                         $weekly_scores['tot_pts_bet'] += 2;
                     }
-                    $weekly_scores['num_correct_res'] = $calc_pred['res_profit'] > 0 ? $weekly_scores['num_correct_res'] + 1 : $weekly_scores['num_correct_res'];
-                    $weekly_scores['num_correct_scr'] = $calc_pred['scr_profit'] > 0 ? $weekly_scores['num_correct_scr'] + 1 : $weekly_scores['num_correct_scr'];
-                    $weekly_scores['pts_won_res'] += $calc_pred['res_profit'];
-                    $weekly_scores['pts_won_scr'] += $calc_pred['scr_profit'];
-                    $weekly_scores['tot_pts_won'] += ($calc_pred['res_profit'] + $calc_pred['scr_profit']);
+                    if ($game->postponed == 0) {
+                        $weekly_scores['num_correct_res'] = $calc_pred['res_profit'] > 0 ? $weekly_scores['num_correct_res'] + 1 : $weekly_scores['num_correct_res'];
+                        $weekly_scores['num_correct_scr'] = $calc_pred['scr_profit'] > 0 ? $weekly_scores['num_correct_scr'] + 1 : $weekly_scores['num_correct_scr'];
+                        $weekly_scores['pts_won_res'] += $calc_pred['res_profit'];
+                        $weekly_scores['pts_won_scr'] += $calc_pred['scr_profit'];
+                        $weekly_scores['tot_pts_won'] += ($calc_pred['res_profit'] + $calc_pred['scr_profit']);
+                    }
                 }
                 $this->update_weekly_scores_table($week_id, $user->id, $weekly_scores);
             }
