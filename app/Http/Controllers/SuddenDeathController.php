@@ -21,6 +21,7 @@ class SuddenDeathController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
+        $current_week = Week::current_week();
 
         $users = User::with('suddenDeathPicks')->get();
         // return $users;
@@ -34,6 +35,7 @@ class SuddenDeathController extends Controller
             $sd_array[$sd->id]['sd'] = $sd;
             $sd_array[$sd->id]['min_week'] = $sd->picksByUserWeek->min('week_id');
             $sd_array[$sd->id]['max_week'] = $sd->picksByUserWeek->max('week_id');
+            $sd_array[$sd->id]['round_status'] = SuddenDeath::round_status($sd->id);
             $sd_array[$sd->id]['players'] = [];
             foreach ($sd->picksByUserWeek as $pick) {
                 if (!in_array($pick->user->name, $sd_array[$sd->id]['players'])) {
@@ -42,7 +44,7 @@ class SuddenDeathController extends Controller
             }
         }
 
-        // return $sd_array;
+        // return $sd_array[1];
 
 
 

@@ -193,7 +193,7 @@ class HomeController extends Controller
         if ($sd_running) {   
             $sd = new SuddenDeath;
             $my_current_sd = $sd->my_current_sd($user_id);
-            return $my_current_sd;
+            // return $my_current_sd;
         }
 
 

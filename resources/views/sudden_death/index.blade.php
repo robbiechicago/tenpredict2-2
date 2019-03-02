@@ -6,6 +6,11 @@
     <h1>Sudden Death</h1>
 
     @foreach ($sd_array as $sd)
+    @php
+        
+    @endphp
+        <h2>Round {{ $sd['sd']->round }}</h2>
+        <p>Started Week {{ $sd['min_week'] }}.</p>
         <table class="table table-nonfluid">
             <thead>
                 <tr>
